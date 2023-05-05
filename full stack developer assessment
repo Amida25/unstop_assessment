@@ -1,0 +1,66 @@
+package upstop1;
+
+import java.util.Arrays;
+
+public class train_Coach {
+   private final int Seats_in_row=7;
+   private final int Last_row_Seats=3;
+   private final int Total_Seats=80;
+   private int[]Seats;
+   
+   public train_Coach() {
+	   Seats = new int[Total_Seats];
+	   Arrays.fill(Seats, 0); // initialize all seats as unbooked  
+   }
+	public void printSeats() {
+		System.out.println("Seating arrangement:\n");
+		for(int i=0; i< Total_Seats;i++) {
+			if(i%Seats_in_row==0&& i!=0)
+			{
+				System.out.println();
+			}
+         System.out.println(Seats[i]+" ");
+		}
+		System.out.println();
+	}
+	public void bookSeats(int seatsToBook) {
+		if(seatsToBook >7) {
+			System.out.println("Sorry, maximum 7 seats can be booked at a time.");
+			return;
+		}
+		int start=0,count=0;
+		boolean found=false;
+		for(int i=0;i<Total_Seats;i++) {
+			if(Seats[i]==0) {
+				count++;
+				if(count==seatsToBook) {
+					found=true;
+				}
+			}else {
+				count=0;
+			}
+if(found||(i%Seats_in_row==Seats_in_row-1&&count>0&&count<=Seats_in_row-Last_row_Seats)) { //seats found in one row or in adjacent rows with 
+			count=Seats_in_row-Last_row_Seats ;
+					start =i-count+1;
+			break;
+			}
+		}
+		if(found) {
+			for(int i=start;i<start+seatsToBook;i++) {
+				Seats[i]=1;//book the seats
+			}
+			System .out.println("seats booked successfuly");
+		}else {
+			System.out.println("sorry required number of seats are not available");
+			}
+		}
+	public static void main(String[]args) {
+		train_Coach tc= new train_Coach();
+		tc.printSeats();
+		tc.bookSeats(4);
+		tc.bookSeats(2);
+		tc.bookSeats(10);
+		
+	}
+	
+}
